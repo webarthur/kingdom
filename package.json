@@ -1,0 +1,25 @@
+{
+  "name": "kingdom",
+  "version": "1.0.0",
+  "description": "A lightweight DOM manipulation library",
+  "type": "module",
+  "main": "kingdom.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webarthur/kingdom.git"
+  },
+  "bugs": {
+    "url": "https://github.com/webarthur/kingdom/issues"
+  },
+  "keywords": [
+    "dom",
+    "jquery",
+    "javascript",
+    "library"
+  ],
+  "license": "MIT",
+  "author": "Arthur Ronconi <webarthur@gmail.com> (https://devarthur.com)"
+}
