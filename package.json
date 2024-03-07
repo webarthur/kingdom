@@ -1,5 +1,5 @@
 {
-  "name": "kingdom",
+  "name": "kingdom-js",
   "version": "1.0.0",
   "description": "A lightweight DOM manipulation library",
   "type": "module",
