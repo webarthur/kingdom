@@ -1,5 +1,5 @@
 {
-  "name": "kingdom",
+  "name": "@webarthur/kingdom-js",
   "version": "1.0.0",
   "description": "A lightweight DOM manipulation library",
   "type": "module",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/webarthur/kingdom.git"
+    "url": "git+https://github.com/webarthur/kingdom.git"
   },
   "bugs": {
     "url": "https://github.com/webarthur/kingdom/issues"
