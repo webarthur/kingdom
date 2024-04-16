@@ -7,7 +7,7 @@ KingDom.js is a lightweight, utility-driven JavaScript library designed to simpl
 You can install KingDom.js using a package manager like npm or yarn:
 
 ```bash
-npm install kingdom.js
+npm install @webarthur/kingdom
 ```
 
 You can also include KingDom.js in your project by downloading the file and linking it directly in your HTML or by importing it into your JavaScript modules. Download `KingDom.js` and include it in your HTML file:
@@ -43,7 +43,7 @@ KingDom.js exposes a set of utility functions that can be used to perform common
 Using `on()` to attach an event listener to the specified element.
 
 ```javascript
-import { on } from 'kingdom-js'
+import { on } from '@webarthur/kingdom'
 
 // Attaches a callback to button on click event
 on('#button-id', 'click', () => {
@@ -61,7 +61,7 @@ on('load', () => {
 Using `update()` topdate the content of an element.
 
 ```javascript
-import { update } from 'kingdom-js'
+import { update } from '@webarthur/kingdom'
 
 update('#myDiv', 'New content here')
 ```
@@ -69,7 +69,7 @@ update('#myDiv', 'New content here')
 ### Showing and Hiding Elements
 
 ```javascript
-import { hide, showw } from 'kingdom-js'
+import { hide, showw } from '@webarthur/kingdom'
 
 hide('#element-id') // Hide element
 show('#element-id') // Show element
@@ -78,7 +78,7 @@ show('#element-id') // Show element
 ### Toggling Classes
 
 ```javascript
-import { toggle } from 'kingdom-js'
+import { toggle } from '@webarthur/kingdom'
 
 toggle('#element-id', 'my-class')
 ```
@@ -87,7 +87,7 @@ toggle('#element-id', 'my-class')
 
 
 ```javascript
-import { get, create } from 'kingdom-js'
+import { get, create } from '@webarthur/kingdom'
 
 // Get container ref
 const container = get('#container-id')
