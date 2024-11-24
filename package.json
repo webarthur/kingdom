@@ -1,11 +1,11 @@
 {
   "name": "@webarthur/kingdom",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A lightweight DOM manipulation library",
   "type": "module",
   "main": "kingdom.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha kingdom.test.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,9 @@
     "library"
   ],
   "license": "MIT",
-  "author": "Arthur Ronconi <webarthur@gmail.com> (https://devarthur.com)"
+  "author": "Arthur Ronconi <webarthur@gmail.com> (https://devarthur.com)",
+  "devDependencies": {
+    "jsdom": "^25.0.1",
+    "mocha": "^10.8.2"
+  }
 }

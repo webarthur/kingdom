@@ -1,3 +1,8 @@
+/**
+ * Selects an element from the DOM.
+ * @param {string|Element} target - The target element or selector.
+ * @returns {Element} The selected element.
+ */
 export default function $ (target) {
   const el = typeof(target) === 'string' ? document.querySelector(target) : el
 
@@ -8,6 +13,12 @@ export default function $ (target) {
   return el
 }
 
+/**
+ * Gets an element from the DOM.
+ * @param {string|Element} target - The target element or selector.
+ * @param {Element} [parent=document] - The parent element to search within.
+ * @returns {Element|null} The found element or null.
+ */
 function get (target, parent=document) {
   const el = typeof(target) === 'string' ? parent.querySelector(target) : target
   if (!el) {
@@ -16,11 +27,24 @@ function get (target, parent=document) {
   return el
 }
 
+/**
+ * Checks if an element exists in the DOM.
+ * @param {string|Element} target - The target element or selector.
+ * @param {Element} [parent=document] - The parent element to search within.
+ * @returns {boolean} True if the element exists, false otherwise.
+ */
 function exists (target, parent=document) {
   const el = typeof(target) === 'string' ? parent.querySelector(target) : target
   return el !== null
 }
 
+/**
+ * Adds an event listener to an element.
+ * @param {string|Element} target - The target element or selector.
+ * @param {string} event - The event type.
+ * @param {Function} cb - The event callback function.
+ * @returns {Element} The target element.
+ */
 function on (target, event, cb) {
   if (!cb) {
     cb = event
@@ -32,6 +56,13 @@ function on (target, event, cb) {
   return el
 }
 
+/**
+ * Toggles a class on an element.
+ * @param {string|Element} target - The target element or selector.
+ * @param {string} [className='d-none'] - The class to toggle.
+ * @param {boolean} [force] - Force add or remove the class.
+ * @returns {Element} The target element.
+ */
 function toggle (target, className = 'd-none', force) {
   const el = get(target)
   if (force === true) {
@@ -46,36 +77,80 @@ function toggle (target, className = 'd-none', force) {
   return el
 }
 
-function update (target, content, type='html') {
+/**
+ * Updates the content of an element.
+ * @param {string|Element} target - The target element or selector.
+ * @param {string|Array|Object} content - The content to set.
+ * @param {string} [type='html'] - The type of content ('html' or 'text').
+ * @returns {Element} The target element.
+ */
+function update(target, content, type='html') {
   const el = get(target)
-  if (type === 'html') {
+  
+  if (el.tagName === 'SELECT' && Array.isArray(content)) {
+    content = content.map(item => {
+      if (typeof item === 'object') {
+        return `<option value="${item.value}">${item.label}</option>`
+      }
+      return `<option value="${item}">${item}</option>`
+    }).join('')
+  }
+
+  if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+    el.value = content
+  }
+  else if (type === 'html') {
     el.innerHTML = content
   } else if (type === 'text') {
     el.textContent = content
   }
+  
   return el
 }
 
-function each (target, cb) {
-  const els = document.querySelectorAll(target)
+/**
+ * Iterates over a collection of elements.
+ * @param {string|Array|NodeList} target - The target elements or selector.
+ * @param {Function} cb - The callback function to execute for each element.
+ * @returns {Array|NodeList} The collection of elements.
+ */
+function each(target, cb) {
+  const els = Array.isArray(target) || target instanceof NodeList 
+    ? target 
+    : document.querySelectorAll(target)
   cb && els.forEach(cb)
   return els
 }
 
-// Function to show element or elements
+/**
+ * Shows an element.
+ * @param {string|Element} target - The target element or selector.
+ * @param {boolean} [force=true] - Force show the element.
+ * @returns {Element} The target element.
+ */
 function show (target, force=true) {
   const el = get(target)
   if (force === true) el.classList.remove('d-none')
   else el.classList.add('d-none')
 }
 
-// Function to hide element or elements
+/**
+ * Hides an element.
+ * @param {string|Element} target - The target element or selector.
+ * @returns {Element} The target element.
+ */
 function hide (target) {
   const el = get(target)
   el.classList.add('d-none')
 }
 
-// Function to set attributes for element
+/**
+ * Sets or gets an attribute of an element.
+ * @param {string|Element} target - The target element or selector.
+ * @param {string} attr - The attribute name.
+ * @param {string} [value] - The attribute value.
+ * @returns {string|Element} The attribute value or the target element.
+ */
 function set (target, attr, value) {
   const el = get(target)
   if (value === undefined) {
@@ -87,18 +162,35 @@ function set (target, attr, value) {
   }
 }
 
-// Function to set css for element
+/**
+ * Sets the style of an element.
+ * @param {string|Element} target - The target element or selector.
+ * @param {string|Object} style - The style property or an object of styles.
+ * @param {string} [value] - The style value.
+ * @returns {Element} The target element.
+ */
 function setStyle (target, style, value) {
   const el = get(target)
   if (typeof style === 'object') Object.assign(el.style, style)
   else el.style[style] = value
 }
 
-// Remover elemento
+/**
+ * Removes an element from the DOM.
+ * @param {string|Element} target - The target element or selector.
+ */
 function remove (target) {
   get(target).remove()
 }
 
+/**
+ * Creates a new element.
+ * @param {string} tag - The tag name of the element.
+ * @param {Object} [attributes={}] - The attributes to set on the element.
+ * @param {Element} [parent] - The parent element to append to.
+ * @param {string} [position] - The position to insert the element.
+ * @returns {Element} The created element.
+ */
 function create (tag, attributes = {}, parent, position) {
   const el = document.createElement(tag)
   Object.keys(attributes).forEach(attr => {
@@ -118,14 +210,6 @@ function create (tag, attributes = {}, parent, position) {
       el.setAttribute(attr, attributes[attr])
     }
   })
-  // for (const attr in attributes) {
-  //   if (attributes.hasOwnProperty(attr)) {
-  //     el.setAttribute(attr, attributes[attr])
-  //   }
-  // }
-  // if (content) {
-  //   el.innerHTML = content
-  // }
 
   if (parent) {
     append(parent, el, position)
@@ -134,6 +218,13 @@ function create (tag, attributes = {}, parent, position) {
   return el
 }
 
+/**
+ * Appends content to an element.
+ * @param {string|Element} target - The target element or selector.
+ * @param {string|Element} code - The content to append.
+ * @param {string} [position='beforeend'] - The position to insert the content.
+ * @returns {Element} The target element.
+ */
 function append (target, code, position = 'beforeend') {
   target = get(target)
   if (typeof(code) === 'string') {
@@ -145,6 +236,11 @@ function append (target, code, position = 'beforeend') {
   return target
 }
 
+/**
+ * Dispatches a custom event.
+ * @param {string|Element} target - The target element or selector.
+ * @param {string} evt - The event type.
+ */
 function dispatch (target, evt) {
   if (!evt) {
     evt = target
@@ -153,19 +249,20 @@ function dispatch (target, evt) {
   target.dispatchEvent(new CustomEvent(evt))
 }
 
+/**
+ * Loads a script or stylesheet.
+ * @param {string} src - The source URL.
+ * @param {Object} [props={}] - The properties to set on the element.
+ * @param {Element} [parent=document.head] - The parent element to append to.
+ * @returns {Element} The created element.
+ */
 function load (src, props = {}, parent = document.head) {
-  // If element with an id exists it should return
   let el
   if (props.id && (el = document.getElementById(props.id))) {
     return el
   }
 
-  // if (!parent) {
-  //   parent = document.head
-  // }
-
   if (src.endsWith('.css')) {
-    // If the link element doesn't exist, create a new one and add it to the document's head
     return create('link', {
       rel: 'stylesheet',
       href: src,
@@ -180,6 +277,52 @@ function load (src, props = {}, parent = document.head) {
   }
 }
 
+/**
+ * Disables an element.
+ * @param {string|Element} el - The target element or selector.
+ * @returns {Element} The target element.
+ */
+function disable (el) {
+  el = get(el)
+  el.setAttribute('disabled', 'disabled')
+  return el
+}
+
+/**
+ * Enables an element.
+ * @param {string|Element} el - The target element or selector.
+ * @returns {Element} The target element.
+ */
+function enable (el) {
+  el = get(el)
+  el.removeAttribute('disabled')
+  return el
+}
+
+/**
+ * Gets the values of checked checkboxes.
+ * @param {NodeList} els - The collection of checkboxes.
+ * @returns {Array} The values of checked checkboxes.
+ */
+function checked (els) {
+  return Array.from(els)
+    .filter(checkbox => checkbox.checked)
+    .map(checkbox => checkbox.value)
+}
+
+/**
+ * Focuses an element.
+ * @param {string|Element} el - The target element or selector.
+ * @returns {Element} The target element.
+ */
+function focus(el) {
+  el = get(el)
+  if (el && typeof el.focus === 'function') {
+    el.focus()
+  }
+  return el
+}
+
 export {
   $,
   get,
@@ -192,10 +335,13 @@ export {
   setStyle,
   remove,
   toggle,
-  // ready,
   append,
   exists,
   create,
   dispatch,
-  load
+  load,
+  disable,
+  enable,
+  checked,
+  focus
 }
