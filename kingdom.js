@@ -263,6 +263,8 @@ function dispatch (target, evt, data) {
   target.dispatchEvent(new CustomEvent(evt, { detail: data }))
 }
 
+const emit = dispatch
+
 /**
  * Loads a script or stylesheet.
  * @param {string} src - The source URL.
@@ -353,6 +355,7 @@ export {
   exists,
   create,
   dispatch,
+  emit,
   load,
   disable,
   enable,
