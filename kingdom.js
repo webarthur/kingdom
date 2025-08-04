@@ -4,7 +4,7 @@
  * @returns {Element} The selected element.
  */
 export default function $ (target) {
-  const el = typeof(target) === 'string' ? document.querySelector(target) : el
+  const el = typeof(target) === 'string' ? document.querySelector(target) : target
 
   if (!el.on) el.on = function (event, cb) {
     el.addEventListener(event, cb)
@@ -19,10 +19,24 @@ export default function $ (target) {
  * @param {Element} [parent=document] - The parent element to search within.
  * @returns {Element|null} The found element or null.
  */
-function get (target, parent=document) {
-  const el = typeof(target) === 'string' ? parent.querySelector(target) : target
+function get (target, ...rest) {
+  let el = typeof(target) === 'string' ? document.querySelector(target) : target
   if (!el) {
     console.warn('Element not found:', target)
+    return null
+  }
+
+  for (const selector of rest) {
+    if (el) {
+      el = typeof(selector) === 'string' ? el.querySelector(selector) : selector
+      if (!el) {
+        console.warn('Element not found:', selector, 'in parent', el)
+        return null
+      }
+    } 
+    else {
+      return null
+    }
   }
   return el
 }
@@ -241,12 +255,12 @@ function append (target, code, position = 'beforeend') {
  * @param {string|Element} target - The target element or selector.
  * @param {string} evt - The event type.
  */
-function dispatch (target, evt) {
+function dispatch (target, evt, data) {
   if (!evt) {
     evt = target
     target = window
   }
-  target.dispatchEvent(new CustomEvent(evt))
+  target.dispatchEvent(new CustomEvent(evt, { detail: data }))
 }
 
 /**
