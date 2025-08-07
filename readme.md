@@ -141,7 +141,7 @@ import { until } from '@webarthur/kingdom'
 import { load } from '@webarthur/kingdom'
 
 // Load TinyMCE script (assuming it exposes `window.tinymce`)
-load('https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/tinymce.min.js', {}, document.body)
+load('https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/tinymce.min.js')
 
 // Wait until TinyMCE is loaded, then initialize it
 until(
