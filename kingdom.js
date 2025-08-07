@@ -339,6 +339,21 @@ function focus(el) {
   return el
 }
 
+/**
+ * Executes a callback repeatedly until a test function returns true.
+ * @param {Function} test - The function to test, called every interval.
+ * @param {Function} finalCallback - The callback to execute when test returns true.
+ * @param {number} [interval=100] - The interval in milliseconds to wait between tests.
+ */
+function until(test, finalCallback, interval = 50) {
+  const check = setInterval(() => {
+    if (test()) {
+      clearInterval(check)
+      finalCallback()
+    }
+  }, interval)
+}
+
 export {
   $,
   get,
@@ -360,5 +375,6 @@ export {
   disable,
   enable,
   checked,
-  focus
+  focus,
+  until
 }
