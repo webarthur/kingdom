@@ -35,6 +35,7 @@ KingDom.js exposes a set of utility functions that can be used to perform common
 - `exists(target, parent = document)`: Checks if an element exists in the DOM.
 - `dispatch(target, event)`: Dispatches a custom event on an element.
 - `load(src, props = {}, parent = document.head)`: Loads a script or stylesheet from the specified source with optional properties and parent element.
+- `until(test, finalCallback, interval = 50)`: Executes a callback repeatedly until a test function returns true.
 
 ## Examples
 
@@ -110,6 +111,50 @@ remove('#element-id')
 ```javascript
 load('path/to/script.js') // Load an external JavaScript file
 load('path/to/style.css') // Load an external CSS file
+```
+
+### Executing Callbacks Until a Condition is Met
+
+```javascript
+import { until } from '@webarthur/kingdom'
+
+let count = 0
+until(
+  () => count === 5, // Test function: continues until count is 5
+  () => console.log('Count reached 5!'), // Callback: executed when test returns true
+  100 // Interval: checks every 100 milliseconds
+)
+
+const incrementCount = setInterval(() => {
+  count++
+  console.log('Count:', count)
+  if (count >= 5) {
+    clearInterval(incrementCount)
+  }
+}, 100)
+```
+
+### Waiting for a Global Variable to Load (e.g., TinyMCE)
+
+```javascript
+import { until } from '@webarthur/kingdom'
+import { load } from '@webarthur/kingdom'
+
+// Load TinyMCE script (assuming it exposes `window.tinymce`)
+load('https://cdnjs.cloudflare.com/ajax/libs/tinymce/5.10.2/tinymce.min.js', {}, document.body)
+
+// Wait until TinyMCE is loaded, then initialize it
+until(
+  () => typeof window.tinymce !== 'undefined', // Checks if tinymce is available
+  () => {
+    window.tinymce.init({
+      selector: '#my-text-area', // Replace with your actual selector
+      plugins: 'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+      toolbar_mode: 'floating',
+    })
+    console.log('TinyMCE initialized!')
+  }
+)
 ```
 
 ## Contributing

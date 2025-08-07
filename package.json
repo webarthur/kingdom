@@ -1,6 +1,6 @@
 {
   "name": "@webarthur/kingdom",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A lightweight DOM manipulation library",
   "type": "module",
   "main": "kingdom.js",
