@@ -346,12 +346,15 @@ function focus(el) {
  * @param {number} [interval=100] - The interval in milliseconds to wait between tests.
  */
 function until(test, finalCallback, interval = 50) {
-  const check = setInterval(() => {
-    if (test()) {
-      clearInterval(check)
-      finalCallback()
-    }
-  }, interval)
+  return new Promise(resolve => {
+    const check = setInterval(() => {
+      if (test()) {
+        clearInterval(check)
+        finalCallback()
+        resolve()
+      }
+    }, interval)
+  })
 }
 
 export {
