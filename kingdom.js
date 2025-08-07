@@ -350,7 +350,7 @@ function until(test, finalCallback, interval = 50) {
     const check = setInterval(() => {
       if (test()) {
         clearInterval(check)
-        finalCallback()
+        finalCallback && finalCallback()
         resolve()
       }
     }, interval)
